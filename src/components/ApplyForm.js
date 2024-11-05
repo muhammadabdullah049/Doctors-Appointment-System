@@ -39,7 +39,7 @@ const formSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   address: z.string().min(5),
 });
-export default function () {
+export default function ApplyFormData () {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -274,7 +274,7 @@ export default function () {
             </FormItem>
           )}
         />
-        <UploadImg />
+        {/* <UploadImg /> */}
         <Button type="submit">Submit</Button>
       </form>
     </Form>
