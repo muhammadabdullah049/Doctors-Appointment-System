@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import Dropzone from "react-dropzone";
 import UploadImg from "./UploadImage";
 import {
   Select,
@@ -39,7 +41,7 @@ const formSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   address: z.string().min(5),
 });
-export default function ApplyFormData () {
+export default function FormData () {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,6 +62,7 @@ export default function ApplyFormData () {
     },
   });
   const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   function onSubmit(values) {
@@ -149,26 +152,12 @@ export default function ApplyFormData () {
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger placeholder="Select gender">
-                      {field.value || "Select gender"}{" "}
-                    </SelectTrigger>
-
-                    <SelectContent>
-                      <SelectItem value="Male">Male</SelectItem>
-                      <SelectItem value="Female">Female</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input placeholder="Enter gender" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             name="appointmentTime"
             control={form.control}
