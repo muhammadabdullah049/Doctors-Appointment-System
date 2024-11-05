@@ -274,7 +274,7 @@ export default function ApplyFormData () {
             </FormItem>
           )}
         />
-        {/* <UploadImg /> */}
+        <UploadImg />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
