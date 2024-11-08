@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { auth } from "../../auth";
+import ToastButton from "./ToastButton";
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const session = await auth();
   return (
     <section className="text-gray-600 my-10 body-font">
       <div className="container mx-auto flex md:flex-row flex-col items-center">
@@ -20,7 +23,10 @@ export default function HeroSection() {
           </p>
           <div className="flex gap-4 justify-center">
             <Button variant="outline">Find Doctor You Need</Button>
-            <Link href={"/doctors/apply"}><Button>Apply as Doctor</Button></Link>
+            {session ? <Link href={"/doctors/apply"}>
+              <Button>Apply as Doctor</Button>
+            </Link> : <ToastButton/>}
+            
           </div>
         </div>
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 flex justify-end">

@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import Dropzone from "react-dropzone";
-import UploadImg from "./UploadImage";
+
+// import Dropzone from "react-dropzone";
+// import UploadImg from "./UploadImage";
 import {
   Select,
   SelectContent,
@@ -25,54 +26,65 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { addRequest } from "@/actions/request";
+import { useToast } from "@/hooks/use-toast";
+import { ClipLoader } from "react-spinners";
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  // name: z.string().min(2).max(50),
   bio: z.string().min(2).max(120),
   hospital: z.string().min(2).max(50),
-  days: z.array(z.string()).min(1, "Select at least one day"),
+  // days: z.array(z.string()).min(1, "Select at least one day"),
   fees: z.string(),
   gender: z.string(),
   appointmentTime: z.string(),
   degree: z.string(),
   specialization: z.string(),
   experience: z.string(),
-  profileImg: z.string().url("Enter a valid image URL"),
+  // profileImg: z.string().url("Enter a valid image URL"),
   number: z.string().regex(/^\d+$/, "Enter a valid phone number"),
-  email: z.string().email("Enter a valid email address"),
+  // email: z.string().email("Enter a valid email address"),
   address: z.string().min(5),
 });
-export default function FormData () {
+export default function ApplyForm({ session }) {
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      // name: "",
       bio: "",
       hospital: "",
-      days: [],
+      // days: [],
       fees: "",
       gender: "",
       appointmentTime: "",
       degree: "",
       specialization: "",
       experience: "",
-      profileImg: "",
+      // profileImg: "",
       number: "",
-      email: "",
+      // email: "",
       address: "",
     },
   });
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  function onSubmit(values) {
+  // const onDrop = useCallback((acceptedFiles) => {
+  //   // Do something with the files
+  // }, []);
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  async function onSubmit(values) {
     console.log(values);
+    values.user = session.user?._id;
+    await addRequest(values);
+    form.reset();
+    toast({
+      description: "Your application has been submitted.",
+    });
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-2 gap-5">
-          <FormField
+          {/* <FormField
             name="name"
             control={form.control}
             render={({ field }) => (
@@ -84,7 +96,7 @@ export default function FormData () {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             name="hospital"
             control={form.control}
@@ -98,7 +110,7 @@ export default function FormData () {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             name="days"
             control={form.control}
             render={({ field }) => (
@@ -131,7 +143,7 @@ export default function FormData () {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             name="fees"
             control={form.control}
@@ -152,7 +164,21 @@ export default function FormData () {
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter gender" {...field} />
+                  <Select
+                    onValueChange={field.onChange} // Bind to form field's onChange handler
+                    defaultValue={field.value} // Set default value from field
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select gender" />{" "}
+                      {/* Placeholder text */}
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>{" "}
+                      {/* Dropdown options */}
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -223,7 +249,7 @@ export default function FormData () {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             name="email"
             control={form.control}
             render={({ field }) => (
@@ -235,7 +261,7 @@ export default function FormData () {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             name="address"
             control={form.control}
@@ -263,8 +289,8 @@ export default function FormData () {
             </FormItem>
           )}
         />
-        <UploadImg />
-        <Button type="submit">Submit</Button>
+        {/* <UploadImg /> */}
+        <Button className={"h-auto w-auto text-xs"} type="submit">{form.formState.isSubmitting ? <ClipLoader/> : "Submit"}</Button>
       </form>
     </Form>
   );
