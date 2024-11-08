@@ -33,6 +33,7 @@ export default async function Header() {
                   }
                 >
                   <Image
+                    alt="image"
                     src={session?.user?.image}
                     height={30}
                     width={30}

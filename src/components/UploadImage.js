@@ -79,7 +79,7 @@ export default function UploadImg() {
         {...getRootProps({ className: "dropzone" })}
       >
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag {"'n'"} drop some files here{","} or click to select files</p>
       </div>
       <aside style={thumbsContainer}>{thumbs}</aside>
     </section>
