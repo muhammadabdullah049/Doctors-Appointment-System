@@ -7,12 +7,12 @@ export default function HeroSection() {
     <section className="text-gray-600 my-10 body-font">
       <div className="container mx-auto flex md:flex-row flex-col items-center">
         <div className="lg:flex-grow md:w-3/4 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-          <h1 className="font-semibold sm:text-2xl text-xl mb-4 text-gray-900">
+          <h1 className="font-semibold sm:text-2xl text-xl mb-4 text-gray-900 dark:text-gray-200">
             DOCTORS APPOINTMENT
             <br className="hidden lg:inline-block" />
             SYSTEM
           </h1>
-          <p className="mb-8 leading-relaxed">
+          <p className="mb-8 leading-relaxed dark:text-gray-500">
             Copper mug try-hard pitchfork pour-over freegan heirloom neutra air
             plant cold-pressed tacos poke beard tote bag. Heirloom echo park
             mlkshk tote bag selvage hot chicken authentic tumeric truffaut
