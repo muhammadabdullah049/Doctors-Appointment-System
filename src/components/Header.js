@@ -10,9 +10,13 @@ import {
 import Link from "next/link";
 
 import ThemeToggle from "./ThemeToggle";
-import { auth } from "../../auth";
+import { auth, signOut } from "../../auth";
 import SignInToggle from "./SigninToggle";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { MdLogout } from "react-icons/md";
+import { GiNotebook } from "react-icons/gi";
+import { CgProfile } from "react-icons/cg";
 
 export default async function Header() {
   const session = await auth();
@@ -42,14 +46,30 @@ export default async function Header() {
                 </MenubarTrigger>
                 <MenubarContent>
                   <Link href={"/profile"}>
-                    <MenubarItem>Profile</MenubarItem>
+                    <Button variant="outline" className="border-none w-full">
+                      Profile
+                      <CgProfile />
+                    </Button>
                   </Link>
                   <MenubarSeparator />
                   <Link href={"/appointments"}>
-                    <MenubarItem>My Appointments</MenubarItem>
+                    <Button variant="outline" className="border-none w-full">
+                      My Appointments
+                      <GiNotebook />
+                    </Button>
                   </Link>
                   <MenubarSeparator />
-                  <MenubarItem>Logout</MenubarItem>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut();
+                    }}
+                  >
+                    <Button variant="outline" className="border-none w-full">
+                      Logout
+                      <MdLogout />
+                    </Button>
+                  </form>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>

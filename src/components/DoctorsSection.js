@@ -88,7 +88,7 @@ export default function DoctorsSection({ isHome }) {
 
             <CardFooter>
               {isHome ? (
-                <Link href={"/doctors"}>
+                <Link href={`/doctors/${doctor.id}`}>
                   <Button className={"h-auto w-auto text-xs"}>
                     See Details
                   </Button>
