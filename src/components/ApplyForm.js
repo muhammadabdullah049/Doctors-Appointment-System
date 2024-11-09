@@ -74,16 +74,26 @@ export default function ApplyForm({ session }) {
   async function onSubmit(values) {
     console.log(values);
     values.user = session.user?._id;
-    await addRequest(values);
-    form.reset();
-    toast({
-      description: "Your application has been submitted.",
-    });
+    console.log("values=>", values);
+    const response = await addRequest(values);
+    console.log("response=>", response);
+    if (response.error) {
+      form.reset();
+      toast({
+        title: "Sorry, Your application cannot be submitted.",
+        description: response.msg,
+      });
+    } else {
+      form.reset();
+      toast({
+        description: "Your application is submitted",
+      });
+    }
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 m-2 gap-5">
           {/* <FormField
             name="name"
             control={form.control}
@@ -290,7 +300,9 @@ export default function ApplyForm({ session }) {
           )}
         />
         {/* <UploadImg /> */}
-        <Button className={"h-auto w-auto text-xs"} type="submit">{form.formState.isSubmitting ? <ClipLoader/> : "Submit"}</Button>
+        <Button className={"h-auto w-auto text-xs"} type="submit">
+          {form.formState.isSubmitting ? <ClipLoader /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );

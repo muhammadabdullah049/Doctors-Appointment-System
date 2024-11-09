@@ -2,8 +2,22 @@ import connectDB from "@/lib/connectDB";
 import { RequestModal } from "@/lib/models/RequestModal";
 
 export async function POST(req) {
-  const obj = await req.json();
+  await connectDB();
   try {
+    const obj = await req.json();
+
+    const isUserRequestedBefore = await RequestModal.findOne({
+      user: obj.user,
+    });
+    if(isUserRequestedBefore){
+      return Response.json(
+        {
+          error: true,
+          msg: "You had already applied as a doctor",
+        },
+        { status: 403 }
+      );
+    }
     let newRequest = await new RequestModal({ ...obj });
     newRequest = await newRequest.save();
 
