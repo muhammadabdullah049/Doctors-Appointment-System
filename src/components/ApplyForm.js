@@ -80,13 +80,14 @@ export default function ApplyForm({ session }) {
     if (response.error) {
       form.reset();
       toast({
+        variant: "destructive",
         title: "Sorry, Your application cannot be submitted.",
         description: response.msg,
       });
     } else {
       form.reset();
       toast({
-        description: "Your application is submitted",
+        description: "Your application has been submitted",
       });
     }
   }
@@ -300,7 +301,7 @@ export default function ApplyForm({ session }) {
           )}
         />
         {/* <UploadImg /> */}
-        <Button className={"h-auto w-auto text-xs"} type="submit">
+        <Button className={"h-8 w-auto text-xs"} type="submit">
           {form.formState.isSubmitting ? <ClipLoader /> : "Submit"}
         </Button>
       </form>
