@@ -9,7 +9,7 @@ export async function POST(req) {
     const isUserRequestedBefore = await RequestModal.findOne({
       user: obj.user,
     });
-    if(isUserRequestedBefore){
+    if (isUserRequestedBefore) {
       return Response.json(
         {
           error: true,
@@ -47,11 +47,39 @@ export async function GET(req) {
     {
       error: false,
       msg: "User Fetched successfully",
-      users,
+      requests,
     },
     { status: 200 }
   );
 }
 
-export async function PUT(req) {}
+export async function PUT(req) {
+  await connectDB();
+  try {
+    const obj = await req.json();
+    let { id, status } = obj;
+    const updated = RequestModal.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      { status: status }
+    ).exec();
+    return Response.json(
+      {
+        error: false,
+        msg: "Request updated Successfully",
+        requests: updated,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return Response.json(
+      {
+        error: true,
+        msg: "Something went wrong",
+      },
+      { status: 500 }
+    );
+  }
+}
 export async function DELETE(req) {}
